@@ -64,4 +64,4 @@ AdvocateSchema.pre('save', function (next) {
   next();
 });
 
-module.exports = mongoose.model('Advocate', AdvocateSchema);
+module.exports = mongoose.model('Advocate', AdvocateSchema); 
