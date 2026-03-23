@@ -1,0 +1,36 @@
+serviceMaps:
+  serviceName: advocate-service
+  mappings:
+    - version: 1.0
+      description: Save advocate
+      fromTopic: save-advocate
+      isTransaction: true
+
+// =============================
+// 11. indexer/indexer_config.yaml
+// =============================
+serviceMaps:
+  mappings:
+    - topic: save-advocate
+      indexes:
+        - name: advocate-index
+
+// =============================
+// 12. api_test/postman_collection.json
+// =============================
+{
+  "info": { "name": "DIGIT Advocate API" },
+  "item": [
+    {
+      "name": "Create",
+      "request": {
+        "method": "POST",
+        "url": "http://localhost:3000/advocate/_create",
+        "body": {
+          "mode": "raw",
+          "raw": "{ \"name\": \"Test\", \"mobileNumber\": \"9999999999\", \"tenantId\": \"od\" }"
+        }
+      }
+    }
+  ]
+}

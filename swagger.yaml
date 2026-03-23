@@ -1,0 +1,183 @@
+openapi: 3.0.0
+
+info:
+  title: DIGIT Advocate API
+  version: 1.0.0
+  description: DIGIT compliant Advocate Registration APIs
+
+servers:
+  - url: http://localhost:3000
+
+paths:
+
+  /advocate/_create:
+    post:
+      summary: Create Advocate
+      tags:
+        - Advocate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRequest'
+            example:
+              RequestInfo:
+                apiId: Rainmaker
+                ver: "1.0"
+                action: create
+              Advocate:
+                name: Ramesh Kumar
+                mobileNumber: "9876543210"
+                email: test@mail.com
+                tenantId: od
+      responses:
+        '200':
+          description: Advocate Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdvocateResponse'
+
+  /advocate/_update:
+    post:
+      summary: Update Advocate
+      tags:
+        - Advocate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateRequest'
+      responses:
+        '200':
+          description: Advocate Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdvocateResponse'
+
+  /advocate/_search:
+    post:
+      summary: Search Advocate
+      tags:
+        - Advocate
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchRequest'
+            example:
+              RequestInfo:
+                apiId: Rainmaker
+                ver: "1.0"
+                action: search
+              mobileNumber: "9876543210"
+      responses:
+        '200':
+          description: Advocate List
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdvocateListResponse'
+
+components:
+
+  schemas:
+
+    RequestInfo:
+      type: object
+      required:
+        - apiId
+        - ver
+        - action
+      properties:
+        apiId:
+          type: string
+        ver:
+          type: string
+        ts:
+          type: string
+        action:
+          type: string
+        authToken:
+          type: string
+
+    Advocate:
+      type: object
+      required:
+        - name
+        - mobileNumber
+        - tenantId
+      properties:
+        id:
+          type: string
+        applicationNumber:
+          type: string
+        name:
+          type: string
+        mobileNumber:
+          type: string
+        email:
+          type: string
+        status:
+          type: string
+          enum:
+            - INITIATED
+            - DOCUMENT_VERIFIED
+            - APPROVED
+            - REJECTED
+        tenantId:
+          type: string
+
+    CreateRequest:
+      type: object
+      required:
+        - RequestInfo
+        - Advocate
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        Advocate:
+          $ref: '#/components/schemas/Advocate'
+
+    UpdateRequest:
+      type: object
+      required:
+        - RequestInfo
+        - Advocate
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        Advocate:
+          $ref: '#/components/schemas/Advocate'
+
+    SearchRequest:
+      type: object
+      required:
+        - RequestInfo
+      properties:
+        RequestInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        mobileNumber:
+          type: string
+
+    AdvocateResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        Advocate:
+          $ref: '#/components/schemas/Advocate'
+
+    AdvocateListResponse:
+      type: object
+      properties:
+        ResponseInfo:
+          $ref: '#/components/schemas/RequestInfo'
+        Advocates:
+          type: array
+          items:
+            $ref: '#/components/schemas/Advocate'

@@ -1,0 +1,10 @@
+{
+  "tenantId": "od",
+  "businessService": "ADVOCATE",
+  "states": [
+    { "state": "INITIATED", "actions": ["VERIFY"] },
+    { "state": "DOCUMENT_VERIFIED", "actions": ["APPROVE", "REJECT"] },
+    { "state": "APPROVED", "actions": [] },
+    { "state": "REJECTED", "actions": [] }
+  ]
+}
